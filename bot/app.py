@@ -14,7 +14,7 @@ from handlers.user_handlers import user_private_router
 from middlwares.auth_middlware import AuthMiddleware
 
 
-bot = Bot(token=os.getenv('BOT_TOKEN'),
+bot = Bot(token=os.getenv('TOKEN'),
           default=DefaultBotProperties(parse_mode=ParseMode.HTML)
           )
 dp = Dispatcher()
