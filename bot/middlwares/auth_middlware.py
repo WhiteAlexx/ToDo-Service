@@ -15,11 +15,11 @@ class AuthMiddleware(BaseMiddleware):
         event: TelegramObject,
         data: Dict[str, Any]
     ) -> Any:
-        if hasattr(event, 'from_user') and event.from_user:
-            user_id = event.from_user.id
-            token = await self.redis_client.get(f"user_token:{user_id}")
 
-            data['user_id'] = user_id
-            data['user_token'] = token
+        if data.get('event_from_user').id:
+            user_id = data.get('event_from_user').id
+            token = self.redis_client.get(f"user_token:{user_id}")
+
+            data['token'] = token
 
         return await handler(event, data)

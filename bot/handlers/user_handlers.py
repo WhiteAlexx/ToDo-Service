@@ -20,9 +20,9 @@ user_private_router.message.filter(ChatTypeFilter(['private']))
 
 
 @user_private_router.message(CommandStart())
-async def start_command(message: Message, dialog_manager: DialogManager):
+async def start_command(message: Message, dialog_manager: DialogManager, token):
 
-    token = redis_client.get(f"user_token:{message.from_user.id}")
+    # token = redis_client.get(f"user_token:{message.from_user.id}")
 
     if token:
         await message.answer('Welcome to your ToDo List! Use the menu to manage your tasks.')
@@ -99,9 +99,9 @@ async def process_login_password(message: Message, widget: TextInput, dialog_man
 
 
 ############################################ T A S K S ############################################
-async def get_tasks_data(dialog_manager: DialogManager, **kwargs):
+async def get_tasks_data(dialog_manager: DialogManager, token, **kwargs):
 
-    token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
+    # token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
 
     try:
         tasks = await api_client.get_tasks(token)
@@ -125,9 +125,9 @@ async def get_tasks_data(dialog_manager: DialogManager, **kwargs):
         return {'tasks': []}
 
 
-async def get_categories_data(dialog_manager: DialogManager, **kwargs):
+async def get_categories_data(dialog_manager: DialogManager, token, **kwargs):
 
-    token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
+    # token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
 
     try:
         categories = await api_client.get_categories(token)
@@ -213,9 +213,9 @@ async def on_no_category(callback: CallbackQuery, button: Button, dialog_manager
     await dialog_manager.next()
 
 
-async def on_confirm_task(callback: CallbackQuery, button: Button, dialog_manager: DialogManager):
+async def on_confirm_task(callback: CallbackQuery, button: Button, dialog_manager: DialogManager, token):
 
-    token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
+    # token = redis_client.get(f"user_token:{dialog_manager.event.from_user.id}")
 
     try:
         data = {
